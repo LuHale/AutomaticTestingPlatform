@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body p-b-0">
+                <h4 class="card-title">接口响应</h4>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs customtab2" role="tablist">
+                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home7" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">header</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">response</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages7" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">校验结果</span></a> </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home7" role="tabpanel">
+                        <div class="p-20">
+                            <h5>{{ response.0.name }}</h5>
+                            <p>State code: {{ response.1.status_code }}</p>
+                            <p>request url: {{ response.1.url }}</p>
+
+                        </div>
+                    </div>
+                    <div class="tab-pane  p-20" id="profile7" role="tabpanel">
+                        <div class="p-20">
+                        <p>{{ response.text }}</p>
+
+                        </div>
+                    </div>
+                    <div class="tab-pane p-20" id="messages7" role="tabpanel"><p>校验结果: {{ assertion.info }}</p></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

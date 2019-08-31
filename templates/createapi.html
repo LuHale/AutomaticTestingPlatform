@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <form action="{% url 'apilist' %}submitapi/{{ testcase.id }}" method="post">
+            {% csrf_token %}
+        <div class="card">
+            <div class="card-title">
+                <h4>{{ testcase.name }}  --  新增接口</h4>
+
+            </div>
+            <div class="card-body">
+                <div class="basic-elements">
+                    <form>
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <div class="form-group">
+                                    <label>接口名称</label>
+                                    <input type="text" class="form-control" placeholder="接口名称" name="name">
+                                </div>
+                                <div class="form-group">
+                                    <label>接口地址</label>
+                                    <input class="form-control" type="text" placeholder="接口地址" name="apiurl">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>是否弃用</label>
+                                    <select name="useornot" class="form-control" style="width: 66px;">
+                                        <option value="False">是</option>
+                                        <option value="True" >否</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>请求方式</label>
+                                    <select name="method" class="form-control" style="width: 66px;">
+                                        <option value="POST">POST</option>
+                                        <option value="GET" >GET</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>请求协议</label>
+                                    <select name="agreement" class="form-control" style="width: 100px;">
+                                        <option value="HTTP">HTTP</option>
+                                        <option value="HTTPS" >HTTPS</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label>接口描述</label>
+                                    <input class="form-control" type="text" placeholder="接口描述" name="describe">
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6">
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="jsgrid-table-panel">
+                                                <div id="jsGrid" class="jsgrid" style="position: relative; height: 100%; width: 100%;">
+                                                <div class="jsgrid-grid-header jsgrid-header-scrollbar">
+                                                    <table class="jsgrid-table">
+                                                        <thead>
+                                                            <tr class="jsgrid-header-row">
+                                                                <th class="jsgrid-header-cell jsgrid-header-sortable" style="width: 150px;">参数名</th>
+                                                                <th class="jsgrid-header-cell jsgrid-header-sortable" style="width: 200px;">参数值</th>
+                                                                <th class="jsgrid-header-cell jsgrid-control-field jsgrid-align-center" style="width: 50px;">操作</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tb">
+                                                            <tr class="jsgrid-filter-row">
+                                                                <td class="jsgrid-cell" style="width: 150px;"><input type="text" name="paraname[]"></td>
+                                                                <td class="jsgrid-cell" style="width: 200px;"><input type="text" name="paravalue[]"></td>
+                                                                <td class="jsgrid-cell jsgrid-control-field jsgrid-align-center" style="width: 50px;">
+                                                                    <input class="jsgrid-button jsgrid-search-button ti-search" type="button" value="Add" onclick="add()">
+                                                                    <input class="jsgrid-button jsgrid-clear-filter-button" type="button" value="del" onclick="del()">
+                                                                </td>
+                                                            </tr>
+
+
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <button type="submit" class="btn btn-success">确定</button>
+            </div>
+
+        </div>
+        </form>
+    </div>
+    <!-- /# column -->
+</div>
+
+<script>
+    function add() {
+        var current_id = 0;
+        var trObj = document.createElement("tr");
+        trObj.id = new Date().getTime();
+        paraid = ++current_id
+        trObj.innerHTML =
+            "<td class=\"jsgrid-cell\" style=\"width: 150px;\"><input type=\"text\" name=\"paraname[]\"></td>\n" +
+            "<td class=\"jsgrid-cell\" style=\"width: 200px;\"><input type=\"text\" name=\"paravalue[]\"></td>\n" +
+            "</td>\n" +
+            "<td class=\"jsgrid-cell jsgrid-control-field jsgrid-align-center\" style=\"width: 50px;\"><input class=\"jsgrid-button jsgrid-search-button ti-search\" type=\"button\" value=\"Add\" onclick=\"add()\"><input class=\"jsgrid-button jsgrid-clear-filter-button\" type=\"button\" value=\"del\" onclick=\"del(this)\"></td>";
+
+
+        document.getElementById("tb").appendChild(trObj);
+    }
+    function del(obj) {
+        var trId = obj.parentNode.parentNode.id;
+        var trObj = document.getElementById(trId);
+        document.getElementById("tb").removeChild(trObj);
+    }
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-title">
+                <h2 style="border-bottom-width: 40px;margin-bottom: 40px;">{{ object.object_name }}</h2>
+
+            </div>
+            <div class="card-body">
+                <div class="basic-form">
+                    <form action="submitproduct/" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>产品名称</label>
+                            <input type="text" class="form-control" name="productname" placeholder="产品名称">
+                        </div>
+                        <div class="form-group">
+                            <label>产品url</label>
+                            <input type="text" class="form-control" name="producturl" placeholder="产品url">
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label>产品描述</label>
+                            </div>
+                            <textarea name="productdescribe" cols="40" rows="4" style="OVERFLOW:hidden"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">确定</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

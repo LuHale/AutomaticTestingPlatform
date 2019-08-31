@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $("#unitchoice").change(function(){
+       $("#unitchoice option").each(function(i,o){
+          if($(this).attr("selected"))
+          {
+           $(".unitvalue").hide();
+           $(".unitvalue").eq(i).show();
+         }
+       });
+      });
+    $("#unitchoice").change();
+   });
+</script>
+
+    <section id="main-content">
+        <div class="row">
+
+            {% for eachcase in testcases %}
+                {% if eachcase.state %}
+            <!-- /# column -->
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-title">
+                                <h4> {{ eachcase.name }} </h4>
+                                <div style = "text-align:right;">
+                                    <a href="{% url 'createapi' testcase_id=eachcase.id %}" type="button" class="btn btn-primary btn-flat btn-addon m-b-10 m-l-5"><i class="ti-plus"></i>新增接口</a>
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="{{ eachcase.id }}">
+                                        <thead>
+                                            <tr>
+                                                <th>接口id</th>
+                                                <th>api名称</th>
+                                                <th>api地址</th>
+                                                <th>请求方法</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            {% for api in all_api %}
+
+                                                {% if api.testcase_id_id == eachcase.id and api.state %}
+                                                <tr>
+                                                    <th scope="row">{{ api.id }}</th>
+                                                    <td>{{ api.name }}</td>
+                                                    <td><span class="badge badge-primary">{{ api.api_url }}</span></td>
+                                                    <td>{{ api.method }}</td>
+                                                    <td>
+                                                    <button onclick="TestBlack('assertion{{ api.id }}')" type="button" class="btn btn-info btn-outline btn-rounded m-b-10 m-l-5">校验</button>
+                                                    <button onclick="TestBlack('unit{{ api.id }}')" type="button" class="btn btn-dark btn-outline btn-rounded m-b-10 m-l-5">插件</button>
+                                                    <a href="{% url 'runapi' api_id=api.id %}" type="button" class="btn btn-success btn-flat btn-addon btn-sm m-b-10 m-l-5" style="padding-left: 8px;">运行</a>
+                                                    <a href="{% url 'editapi' api_id=api.id %}" type="button" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5" style="padding-left: 8px;">编辑</a>
+                                                    <a href="{% url 'delapi' api_id=api.id %}" type="button" class="btn btn-danger btn-flat btn-addon btn-sm m-b-10"style="padding-left: 8px;">删除</a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <form action="{% url 'apilist' %}assert/{{ api.id }}" method="post">
+                                                            {% csrf_token %}
+
+                                                            <table id="assertion{{ api.id }}" class="table table-bordered" style="display: none">
+                                                                <tr>
+                                                                    <td>校验内容</td>
+                                                                    {% if api.assert_info %}
+                                                                        <td><input type="text" name="assertion" class="form-control input-sm" value="{{ api.assert_info }}"></td>
+                                                                    {% else %}
+                                                                        <td><input type="text" name="assertion" class="form-control input-sm" value=""></td>
+                                                                    {% endif %}
+                                                                    <td><button class="btn btn-success btn-flat btn-addon btn-sm m-b-10 m-l-5" style="padding-left: 8px;">保存</button></td>
+                                                                </tr>
+
+                                                            </table>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <form action="{% url 'apilist' %}refunc/{{ api.id }}" method="post">
+                                                            {% csrf_token %}
+
+                                                            <table id="unit{{ api.id }}" class="table table-bordered" style="display: none">
+                                                                <tr>
+                                                                    <td>插件选择：</td>
+                                                                    {% if api.re_func %}
+                                                                        <td>
+                                                                            <select id="unitchoice" class="form-control">
+                                                                                <option value="re-unit">正则表达式提取器</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td>
+
+                                                                            <input type="text" class="form-control input-sm" name="para-name" placeholder="被引用参数名" value="{{ api.re_name }}">
+
+                                                                            <input type="text" class="form-control input-sm" name="re-func" placeholder="正则表达式" value="{{ api.re_func }}">
+
+                                                                        </td>
+
+                                                                    {% else %}
+                                                                        <td>
+                                                                            <select id="unitchoice" class="form-control">
+                                                                                <option value="re-unit">正则表达式提取器</option>
+                                                                            </select>
+                                                                        </td>
+                                                                        <td>
+
+                                                                            <input type="text" class="form-control input-sm" name="para-name" placeholder="被引用参数名">
+
+                                                                            <input type="text" class="form-control input-sm" name="re-func" placeholder="正则表达式">
+
+                                                                        </td>
+
+                                                                    {% endif %}
+                                                                    <td><button class="btn btn-success btn-flat btn-addon btn-sm m-b-10 m-l-5" style="padding-left: 8px;">保存</button></td>
+                                                                </tr>
+
+                                                            </table>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+
+
+        </div>
+
+    </section>
+
+
+<script language="javascript">
+function TestBlack(TagName){
+ var obj = document.getElementById(TagName);
+ if(obj.style.display=="none"){
+  obj.style.display = "";
+ }else{
+  obj.style.display = "none";
+ }
+}
+</script>
+
+
+
+{% endblock %}
+

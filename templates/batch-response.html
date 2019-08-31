@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="col-md-6">
+        <div class="card">
+            <h4 class="card-title">执行结果</h4>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <div class="card-title">
+                    <h4>{{ product.name }} </h4>
+                    </div>
+                    <thead>
+                        <tr>
+                            <th>接口id</th>
+                            <th>接口名称</th>
+                            <th>执行结果</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for each_response in response %}
+                            <tr>
+                                <td>{{ each_response.response.0.id }}</td>
+                                <td>{{ each_response.response.0.name }}</td>
+                                {% if each_response.assertion.info == '校验成功' %}
+                                    <td bgcolor="green">{{ each_response.assertion.info }}</td>
+                                {% elif each_response.assertion.info == None and each_response.response.1.status_code == 200%}
+                                    <td bgcolor="green">{{ each_response.response.1.status_code }}</td>
+                                {% elif each_response.assertion.info == '校验失败'%}
+                                    <td bgcolor="red">{{ each_response.assertion.info }}</td>
+                                {% elif each_response.assertion.info == None and each_response.response.1.status_code != 200%}
+                                    <td bgcolor="red">{{ each_response.response.1.status_code }}</td>
+                                {% endif %}
+                                <td>
+                                    <!-- /# 这里写操作功能 -->
+
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body p-b-0">
+                <h4 class="card-title">接口响应</h4>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs customtab2" role="tablist">
+                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home7" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">header</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">response</span></a> </li>
+                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages7" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">校验结果</span></a> </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home7" role="tabpanel">
+                        {% for each_response in response %}
+                            <div class="p-20">
+                                <h5>{{ each_response.response.0.name }}</h5>
+                                <p>State code: {{ each_response.response.1.status_code }}</p>
+                                <p>request url: {{ each_response.response.1.url }}</p>
+
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane  p-20" id="profile7" role="tabpanel">
+                        {% for each_response in response %}
+                            <div class="p-20">
+                                <h5>{{ each_response.response.0.name }}</h5>
+                                <p>{{ each_response.response.1.text }}</p>
+
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="tab-pane p-20" id="messages7" role="tabpanel">
+                        {% for each_response in response %}
+                            <h5>{{ each_response.response.0.name }}</h5>
+                            <p>校验结果: {{ each_response.assertion.info }}</p>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

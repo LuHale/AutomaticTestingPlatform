@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% load static %}
+    <!-- /# row -->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-title">
+            </div>
+            <div class="button-list">
+                <button type="button" class="btn btn-pink btn-flat btn-addon m-b-10"><i class="ti-search"></i>搜索</button>
+            </div>
+        </div>
+        <!-- /# card -->
+
+
+        <section id="main-content">
+            <div class="row">
+                <!-- /# column -->
+                <div class="col-lg-6">
+                    <div class="card" style="width: 1800px;">
+                        <div class="card-title">
+                            <h4>测试用例</h4>
+                            <div style = "text-align:right;">
+                                <a href="{% url 'createtestcase' %}" type="button" class="btn btn-primary btn-flat btn-addon m-b-10 m-l-5"><i class="ti-plus"></i>新增用例</a>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>项目名称</th>
+                                            <th>产品名称</th>
+                                            <th>用例名称</th>
+                                            <th>用例描述</th>
+                                            <th>创建时间</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {% for eachtestcase in context %}
+                                        {% if eachtestcase.state %}
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td> {{ eachtestcase.object_name }}</td>
+                                                <td> {{ eachtestcase.product_name }}</td>
+                                                <td> {{ eachtestcase.name }} </td>
+                                                <td class="color-primary"> {{ eachtestcase.describe }} </td>
+                                                <td> {{ eachtestcase.creat_time }} </td>
+                                                <td class="button-list">
+                                                    <a href=" {% url 'edittestcase' object_id=eachtestcase.object_id_id product_id=eachtestcase.product_id_id testcase_id=eachtestcase.id %}" type="button" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5" style="padding-left: 8px;">编辑</a>
+                                                    <a href=" {% url 'deltestcase' testcase_id=eachtestcase.id %} " type="button" class="btn btn-danger btn-flat btn-addon btn-sm m-b-10"style="padding-left: 8px;">删除</a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /# row -->
+
+        </section>
+    </div>
+
+
+{% endblock %}

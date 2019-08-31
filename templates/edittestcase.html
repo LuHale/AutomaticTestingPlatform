@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-title">
+                <h4 style="border-bottom-width: 40px;margin-bottom: 40px;">编辑用例</h4>
+
+            </div>
+            <div class="card-body">
+                <div class="basic-form">
+                    <form action="{% url 'testcaselist' %}updatetestcase/" method="post">
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                        <label>项目名称</label>
+                        <tr>
+                            <th rowspan="1" colspan="1">
+                                <select name="objectid" class="form-control">
+                                    <option value="{{ object.id }}">{{ object.object_name }}</option>
+                                    {% for eachobject in objects %}
+                                        <option value="{{ eachobject.id }}" >{{ eachobject.object_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </th>
+                        </tr>
+                        </div>
+
+                        <div class="form-group">
+                        <label>产品名称</label>
+                        <tr>
+                            <th rowspan="1" colspan="1">
+                                <select name="productid" class="form-control">
+                                    <option value="{{ product.id }}">{{ product.name }}</option>
+                                    {% for eachproduct in products %}
+                                        <option value="{{ eachproduct.id }}" >{{ eachproduct.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </th>
+                        </tr>
+                        </div>
+
+                        <div class="form-group">
+                            <label>用例名称</label>
+                            <input type="text" class="form-control" name="testcasename" placeholder="用例名称" value="{{ testcase.name }}">
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label>用例描述</label>
+                            </div>
+                            <textarea name="testcasedescribe" cols="40" rows="4" style="OVERFLOW:hidden">{{ testcase.describe }}</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">确定</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

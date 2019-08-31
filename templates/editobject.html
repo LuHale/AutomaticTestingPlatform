@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-title">
+                <h4 style="border-bottom-width: 40px;margin-bottom: 40px;">新增项目</h4>
+
+            </div>
+            <div class="card-body">
+                <div class="basic-form">
+                    <form action="editsubmit/{{ object.id }}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>项目名称</label>
+                            <input type="text" class="form-control" name="objectname" value="{{ object.object_name }}">
+
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label>项目描述</label>
+                            </div>
+                            <textarea name="objectdescribe" cols="40" rows="4" style="OVERFLOW:hidden">
+                                {{ object.object_describe }}
+                            </textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">确定</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
