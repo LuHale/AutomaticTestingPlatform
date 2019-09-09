@@ -1,6 +1,6 @@
-from api.models import Api
-from object.models import Objcets
-from product.models import Products
+from apps.api.models import Api
+from apps.object.models import Objcets
+from apps.product.models import Products
 from .baseUtils import ConfigHttp
 
 

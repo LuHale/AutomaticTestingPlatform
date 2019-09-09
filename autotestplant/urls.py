@@ -15,19 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from login.views import LogOut
-from object.views import ObjectList
-
+from apps.login import LogOut
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/', include('front.urls')),
-    path('homepage/', include('homepage.urls')),
+    path('index/', include('apps.front.urls')),
+    path('homepage/', include('apps.homepage.urls')),
     path('logout/', LogOut.as_view(), name='logout'),
-    path('createobject/', include('object.urls')),
-    path('register/', include('register.urls')),
-    path('product/', include('product.urls')),
-    path('testcase/', include('testcases.urls')),
-    path('api/', include('api.urls')),
-    path('tasklist', include('task.urls'))
+    path('createobject/', include('apps.object.urls')),
+    path('register/', include('apps.register.urls')),
+    path('product/', include('apps.product.urls')),
+    path('testcase/', include('apps.testcases.urls')),
+    path('api/', include('apps.api.urls')),
+    path('tasklist', include('apps.task.urls'))
 ]
