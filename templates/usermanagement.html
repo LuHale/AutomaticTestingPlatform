@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<section id="main-content">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-title">
+                    <h4>用户管理 </h4>
+
+                </div>
+                <div class="button-list">
+                    <button type="submit" class="btn btn-pink btn-flat btn-addon m-b-10"><i class="ti-search"></i>搜索</button>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>用户名</th>
+                                    <th>手机号</th>
+                                    <th>用户状态</th>
+                                    <th>创建日期</th>
+                                    <th>最后登录日期</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for each_user in users %}
+                                    <tr>
+                                        <th scope="row">{{ each_user.id }}</th>
+                                        <td>{{ each_user.username }}</td>
+                                        <td>{{ each_user.extension.phone_number }}</td>
+                                        {% if each_user.is_active %}
+                                            <td><span class="badge badge-success">启用</span></td>
+                                        {% else %}
+                                            <td><span class="badge badge-danger">停用</span></td>
+                                        {% endif %}
+                                        <td>{{ each_user.date_joined }}</td>
+                                        <td>{{ each_user.last_login }}</td>
+                                        <td class="button-list">
+                                            <a href="{% url 'usermanagement:manage_group' userid=each_user.id %}" type="button" class="btn btn-info btn-flat btn-addon btn-sm m-b-10 m-l-5" style="padding-left: 8px;">组管理</a>
+                                            <a href="{% url 'usermanagement:user_state' userid=each_user.id operateid=1 %}" type="button" class="btn btn-success btn-flat btn-addon btn-sm m-b-10 m-l-5" style="padding-left: 8px;">启用</a>
+                                            <a href="{% url 'usermanagement:user_state' userid=each_user.id operateid=2 %}" type="button" class="btn btn-danger btn-flat btn-addon btn-sm m-b-10"style="padding-left: 8px;">禁用</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'page-num.html' %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-title">
+                <h4>创建组</h4>
+
+            </div>
+            <div class="card-body">
+                <div class="basic-form">
+                    <form action="{% url 'usermanagement:create_group' %}" method="post">
+                    {% csrf_token %}
+                        <div class="form-group">
+                            <label>组名称</label>
+                            <input name="group_name" class="form-control" placeholder="分组名称">
+                        </div>
+                        <div class="form-group">
+                            <label>权限管理 </label>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" name="group_right" >
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>权限名称</th>
+                                                <th>作用</th>
+                                                <th>所属模块</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for each_permission in permissions %}
+                                            <tr>
+                                                <th scope="row">{{ each_permission.id }}</th>
+                                                <td>{{ each_permission.codename }}</td>
+                                                <td><span class="badge badge-primary">{{ each_permission.name }}</span></td>
+                                                <td>{{ each_permission.content_type.name}}</td>
+                                                <td class="color-primary">
+                                                    <input type="checkbox" name='group_right' value={{ each_permission.codename }} checked="checked" >
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

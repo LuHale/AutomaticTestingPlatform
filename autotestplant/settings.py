@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'apps.api',
     'apps.task',
     'django_crontab',
+    'apps.usermanagement',
 ]
 
 MIDDLEWARE = [

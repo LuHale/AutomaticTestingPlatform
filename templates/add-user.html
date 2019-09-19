@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-title">
+                <h4>{{ group.name }}--管理组用户</h4>
+
+            </div>
+            <div class="card-body">
+                <div class="basic-form">
+                    <form method="post">
+                    {% csrf_token %}
+                        <div class="form-group">
+                            <label>用户名</label>
+                            <input name="user_name" class="form-control" placeholder="需要添加的用户名">
+                        </div>
+                        <div class="form-group">
+                            <label>已添加用户 </label>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>用户名</th>
+                                                <th>状态</th>
+                                                <th>手机号</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for each_user in users %}
+                                            <tr>
+                                                <th scope="row">{{ each_user.id }}</th>
+                                                <td>{{ each_user.username }}</td>
+                                                <td><span class="badge badge-primary">{{ each_user.is_active }}</span></td>
+                                                <td>{{ each_user.extension.phone_number }}</td>
+                                                <td class="color-primary">
+                                                    <a href="{% url 'usermanagement:del_user' groupid=group.id userid=each_user.id %}" type="button" class="btn btn-danger btn-flat btn-addon btn-sm m-b-10"style="padding-left: 8px;">删除</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-success">确定</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

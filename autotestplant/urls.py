@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from apps.login import LogOut
+from apps.login.views import LogOut
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +27,6 @@ urlpatterns = [
     path('product/', include('apps.product.urls')),
     path('testcase/', include('apps.testcases.urls')),
     path('api/', include('apps.api.urls')),
-    path('tasklist', include('apps.task.urls'))
+    path('tasklist', include('apps.task.urls')),
+    path('groups_list/', include('apps.usermanagement.urls'))
 ]

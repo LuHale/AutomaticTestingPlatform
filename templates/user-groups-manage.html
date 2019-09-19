@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-title">
+                <h4>{{ user.username }}--管理组</h4>
+
+            </div>
+            <div class="card-body">
+                <div class="basic-form">
+                    <form method="post">
+                    {% csrf_token %}
+                        <div class="form-group">
+                            <label>组名</label>
+                            <input name="group_name" class="form-control" placeholder="需要添加的用户组名称">
+                        </div>
+                        <div class="form-group">
+                            <label>已添加用户组 </label>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>组名</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for each_group in groups %}
+                                            <tr>
+                                                <th scope="row">{{ each_group.id }}</th>
+                                                <td>{{ each_group.name }}</td>
+                                                <td class="color-primary">
+                                                    <a href="{% url 'usermanagement:user_del_group' groupid=each_group.id userid=user.id %}" type="button" class="btn btn-danger btn-flat btn-addon btn-sm m-b-10"style="padding-left: 8px;">删除</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-success">确定</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
